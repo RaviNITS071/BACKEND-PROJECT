@@ -46,7 +46,7 @@ const userSchema  = new Schema(
     userSchema.pre("save", async function(next){
         if(! this.isModified("password")) return next();
 
-        this.password = bcrypt.hash(this.password , 10)
+        this.password = await bcrypt.hash(this.password , 10)
         next()
     })
 
@@ -70,7 +70,7 @@ const userSchema  = new Schema(
         )
     }
 
-    usetrSchema.methods.generateRefreshToken = function(){
+    userSchema.methods.generateRefreshToken = function(){
          return jwt.sign(
             {
                 _id: this._id,
@@ -83,4 +83,4 @@ const userSchema  = new Schema(
     }
 
 
-    export const User = mongoose.model("User" , videoSchema)
+    export const User = mongoose.model("User" , userSchema)
